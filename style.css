@@ -1,0 +1,69 @@
+body {
+	background-color: black;
+}
+
+div#board {
+	position: relative;
+	width: 1024px;
+	height: 863px;
+	margin: auto;
+	background: url("img/board.jpg") no-repeat;
+}
+
+div#messageArea {
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	color: rgb(83, 175, 19);
+}
+
+.hit {
+	background: url("img/ship.png") no-repeat center center;
+}
+
+.miss {
+	background: url("img/miss.png") no-repeat center center;
+}
+
+table {
+	border-spacing: 0px;
+	/* could use border-collapse instead */
+	/* border-collapse: collapse; */
+	position: absolute;
+	left: 173px;
+	top: 98px;
+}
+
+td {
+	width: 94px;
+	height: 94px;
+}
+
+form {
+	width: 120px;
+	position: absolute;
+	bottom: 0px;
+	right: 0px;
+	padding: 15px;
+	background-color: rgb(83, 175, 19);
+	border-radius: 3px;
+	text-align: center;
+}
+
+form input {
+	box-sizing: border-box;
+	width: 100px;
+	padding: 10px;
+	background-color: rgb(152, 207, 113);
+	border: 2px solid rgb(43, 91, 9);
+	border-radius: 3px;
+	font-size: 1em;
+}
+
+form input[type="text"] {
+	margin-bottom: 10px;
+}
+
+form input[type="button"] {
+}
+
