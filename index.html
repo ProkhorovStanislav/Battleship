@@ -9,13 +9,18 @@
   <div id="menu" hidden></div>
   <div id="board">
     <div id="messageArea">Welcome!:)</div>
-    <div id="guessesArea">Guesses: <span id="guessesCount">0</span></div>
     <div id="timeCountArea">0:00:00</div>
-    <input type="button" id="startNewGame" value="New game">
     <form>
-      <input type="text" id="guessInput" placeholder="A0">
-      <input type="button" id="fireButton" value="Fire!">
+      <div class="wrap">
+        <input type="text" id="guessInput" placeholder="A0">
+        <input type="button" id="fireButton" value="Fire!">
+      </div>
+      <div class="wrap">
+        <div id="guessesArea">Guesses: <span id="guessesCount">0</span></div>
+        <input type="button" id="startNewGame" value="New game">
+      </div>
     </form>
+    <div id="showShipsStatus"></div>
     <div id="tableBox"></div>
   </div>
 

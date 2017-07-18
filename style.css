@@ -3,17 +3,17 @@ body {
 	margin: 0;
 	background-color: rgb(30, 30, 30);
 	position: relative;
+	font-family: 'Colibri', sans-serif;
 }
 
 div#board {
 	position: absolute;
-	width: calc(100vh - 200px);
-	height: calc(100vh - 200px);
+	width: calc(100vh - 250px);
+	height: calc(100vh - 250px);
 	left: 50%;
 	top: calc(50% - 50px);
 	margin: auto;
 	transform: translate(-50%, -50%);
-	/*background: url("img/board.jpg") no-repeat;*/
 }
 div#tableBox {
 	position: absolute;
@@ -26,51 +26,87 @@ div#tableBox {
 
 div#messageArea {
 	position: absolute;
-	top: -40px;
+	top: -70px;
 	left: 0;
 	padding: 10px;
 	color: rgb(83, 175, 19);
 }
 
 div#guessesArea {
-	position: absolute;
-	top: -40px;
-	right: 0;
-	padding: 10px;
-	color: rgb(83, 175, 19);
-	text-decoration: underline;
+	width: 96px;
+	margin: 0 auto;
+	line-height: 38px;
+	margin-bottom: 10px;
+	border: 2px solid rgb(43, 91, 9);
 }
 
 div#timeCountArea {
 	position: absolute;
-	bottom: -70px;
-	left: 15px;
+	top: -70px;
+	right: 0;
 	min-width: 60px;
-	padding: 10px;
+	padding: 0 10px;
 	font-size: 30px;
 	color: rgb(83, 175, 19);
 	border: 1px solid rgb(83, 175, 19);
-	border-radius: 50%;
+	border-radius: 10px;
 	text-align: center;
 }
 
 input#startNewGame {
-	position: absolute;
 	box-sizing: border-box;
 	width: 100px;
 	padding: 10px;
-	bottom: -45px;
-	left: 50%;
-	transform: translateX(-50%);
 	background-color: rgb(152, 207, 113);
 	border: 2px solid rgb(43, 91, 9);
 	border-radius: 3px;
-	font-size: 1em;
 }
 
 input#startNewGame:focus {
 	outline: none;
 }
+
+div#showShipsStatus {
+	position: absolute;
+	width: 50px;
+	min-height: 50px;
+	right: -55px;
+	top: 50%;
+	transform: translateY(-50%);
+}
+
+.ship {
+	position: relative;
+	width: 100%;
+	height: 20px;
+	background: url("img/ship.png") no-repeat center center;
+	background-size: 90%;
+	overflow: hidden;
+}
+
+.sunk:before {
+	content: '';
+	position: absolute;
+	left: 0;
+	top: 12px;
+	width: 100%;
+	height: 1px;
+	background: red;
+	transform: rotate(-15deg);
+}
+
+.sunk:after {
+	content: '';
+	position: absolute;
+	left: 0;
+	top: 12px;
+	width: 100%;
+	height: 1px;
+	background: red;
+	transform: rotate(15deg);
+}
+
+
 
 .hit {
 	background: url("img/ship.png") no-repeat center center;
@@ -83,10 +119,8 @@ input#startNewGame:focus {
 }
 
 table {
-	border-spacing: 0px;
+	border-spacing: 0;
 	border-collapse: collapse;
-	/* could use border-collapse instead */
-	/* border-collapse: collapse; */
 	width: 100%;
 	height: 100%;
 }
@@ -99,92 +133,122 @@ td {
 
 td:not(.miss):not(.hit):hover {
 	cursor: pointer;
+	box-shadow: inset 0 0 10px 10px rgba(152, 207, 113, .3);
 }
 
-td:not(.miss):not(.hit):before {
-	content: '';
-	box-sizing: border-box;
+tr:first-child td:before {
 	position: absolute;
-	height: 80%;
-	width: 80%;
-	left: 10%;
-	top: 10%;
-	border: 4px solid rgb(83, 175, 19);
-	border-radius: 50%;
-	opacity: 0;
+	left: 50%;
+	top: -35px;
+	font-size: 30px;
+	color: rgb(152, 207, 113);
+	transform: translateX(-50%);
 }
 
-td:not(.miss):not(.hit):after {
-	content: '';
-	box-sizing: border-box;
+td:first-child:after {
 	position: absolute;
-	height: 4px;
-	width: 4px;
-	left: calc(50% - 4px);
-	top: calc(50% - 4px);
-	border: 4px solid rgb(83, 175, 19);
-	border-radius: 50%;
-	opacity: 0;
+	left: -30px;
+	top: 50%;
+	font-size: 30px;
+	color: rgb(152, 207, 113);
+	transform: translateY(-50%);
 }
 
-td:hover:after,
-td:hover:before {
-	opacity: 1;
-	-webkit-transition: all 1000ms ease-out;
-	-moz-transition: all 1000ms ease-out;
-	-o-transition: all 1000ms ease-out;
-	transition: all 1000ms ease-out;
+tr:nth-child(1) td:first-child:after {
+	content: 'A';
 }
 
+tr:nth-child(2) td:first-child:after {
+	content: 'B';
+}
 
-/*td.miss:before,*/
-/*td.hit:before {*/
-	/*content: '';*/
-	/*position: absolute;*/
-	/*height: 4px;*/
-	/*width: 80%;*/
-	/*left: 10%;*/
-	/*top: calc(50% - 1px);*/
-	/*opacity: 0;*/
-	/*border: none;*/
-/*}*/
+tr:nth-child(3) td:first-child:after {
+	content: 'C';
+}
 
-/*td.miss:after,*/
-/*td.hit:after {*/
-	/*content: '';*/
-	/*position: absolute;*/
-	/*height: 80%;*/
-	/*width: 4px;*/
-	/*left: calc(50% - 1px);*/
-	/*top: 10%;*/
-	/*background: red;*/
-	/*opacity: 0;*/
-	/*border: none;*/
-/*}*/
+tr:nth-child(4) td:first-child:after {
+	content: 'D';
+}
 
-/*td.miss:hover:before,*/
-/*td.miss:hover:after,*/
-/*td.hit:hover:after,*/
-/*td.hit:hover:before {*/
-	/*opacity: 1;*/
-	/*background: red;*/
-	/*-webkit-transition: all 1ms ease-out;*/
-	/*-moz-transition: all 1ms ease-out;*/
-	/*-o-transition: all 1ms ease-out;*/
-	/*transition: all 1ms ease-out;*/
-	/*transform: rotate(45deg);*/
-/*}*/
+tr:nth-child(5) td:first-child:after {
+	content: 'E';
+}
 
+tr:nth-child(6) td:first-child:after {
+	content: 'F';
+}
+
+tr:nth-child(7) td:first-child:after {
+	content: 'G';
+}
+
+tr:nth-child(8) td:first-child:after {
+	content: 'H';
+}
+
+tr:nth-child(9) td:first-child:after {
+	content: 'I';
+}
+
+tr:nth-child(10) td:first-child:after {
+	content: 'J';
+}
+
+tr:first-child td:nth-child(1):before {
+	content: '1';
+}
+
+tr:first-child td:nth-child(2):before {
+	content: '2';
+}
+
+tr:first-child td:nth-child(3):before {
+	content: '3';
+}
+
+tr:first-child td:nth-child(4):before {
+	content: '4';
+}
+
+tr:first-child td:nth-child(5):before {
+	content: '5';
+}
+
+tr:first-child td:nth-child(6):before {
+	content: '6';
+}
+
+tr:first-child td:nth-child(7):before {
+	content: '7';
+}
+
+tr:first-child td:nth-child(8):before {
+	content: '8';
+}
+
+tr:first-child td:nth-child(9):before {
+	content: '9';
+}
+
+tr:first-child td:nth-child(10):before {
+	content: '10';
+}
 
 form {
-	width: 120px;
+	display: flex;
+	width: 240px;
 	position: absolute;
-	bottom: -130px;
-	right: 0px;
+	bottom: -140px;
+	left: 50%;
+	transform: translateX(-50%);
 	padding: 15px;
 	background-color: rgb(83, 175, 19);
 	border-radius: 3px;
 	text-align: center;
+}
+
+.wrap {
+	width: 50%;
 }
 
 form input {

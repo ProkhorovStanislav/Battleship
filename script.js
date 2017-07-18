@@ -1,6 +1,6 @@
 //Объект модели. Следит за кораблями: где они находятся, попали ли в них и не утонули ли подстреленные корабли.
 var model = {
-  boardSize: 4,                                         //Эти три свойства помогают обойтись без жестко фиксированных значений: boardSize (размер игрового поля), numShips (количество кораблей в игре) и shipLength (длина корабля в клетках, 3).
+  boardSize: 5,                                         //Эти три свойства помогают обойтись без жестко фиксированных значений: boardSize (размер игрового поля), numShips (количество кораблей в игре) и shipLength (длина корабля в клетках, 3).
   numShips: 2,
   shipLength: 3,
   shipsSunk: 0,                                         //Свойство shipsSunk (инициализируется значением 0 в начале игры) содержит текущее количество кораблей, потопленных игроком.
@@ -24,6 +24,7 @@ var model = {
         if (this.isSunk(ship)) {                        //Добавляем проверку здесь, после того как будем точно знать, что выстрел попал в корабль. Если корабль потоплен, то мы увеличиваем счетчик потопленных кораблей в свойстве shipsSunk модели.
           view.displayMessage("You sank my battleship!");   //Сообщаем игроку, что он потопил корабль!
           this.shipsSunk++;
+          view.displaySunk();
         }
         return true;                                    //Возвращаем true, потому что выстрел оказался удачным.
       }
@@ -115,6 +116,15 @@ var model = {
       }
     }
     return false;                                            //Если выполнение дошло до этой точки, значит, ни одна из позиций не была обнаружена в других массивах, поэтому функция возвращает false (перекрытия отсутствуют).
+  },
+
+  generateShipsPreview: function (numShips) {
+    var shipsPreviewField = document.getElementById('showShipsStatus');
+    for (var i = 0; i < numShips; i++) {
+      var newShip = document.createElement('div');
+      newShip.classList.add('ship');
+      shipsPreviewField.appendChild(newShip);
+    }
   }
 
 };
@@ -139,6 +149,12 @@ var view = {
   updateGuesses: function (guesses) {
     var guessesArea = document.getElementById('guessesCount');
     guessesArea.textContent = guesses;
+  },
+
+  displaySunk: function () {
+    var shipsPreviewField = document.getElementById('showShipsStatus');
+    var previewShips = shipsPreviewField.querySelectorAll('.ship');
+    previewShips[model.shipsSunk - 1].classList.add('sunk');
   }
 
 };
@@ -275,6 +291,7 @@ function init() {
   fireButton.onclick = handleFireButton;                              //Кнопке назначаем обработчик события нажатия(клика мышью) — функцию handleFireButton.
   guessInput.onkeypress = handleKeyPress;                             //Добавляем новый обработчик — для обработки событий нажатия клавиш(в частности Enter) в поле ввода HTML.
   model.createBoard(model.boardSize);
+  model.generateShipsPreview(model.numShips);
   tableBox.onclick = clickOnTheField;
   model.generateShipLocations();                                      //Размещение кораблей на доске. Данный метод вызывается из функции init, чтобы это происходило во время загрузки игры (до ее начала). При таком вызове позиции всех кораблей будут определены к моменту начала игры.
 }
