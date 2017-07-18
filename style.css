@@ -234,7 +234,7 @@ tr:first-child td:nth-child(10):before {
 	content: '10';
 }
 
-form {
+form#active-game-form {
 	display: flex;
 	width: 240px;
 	position: absolute;
@@ -251,7 +251,7 @@ form {
 	width: 50%;
 }
 
-form input {
+form#active-game-form input {
 	box-sizing: border-box;
 	width: 100px;
 	padding: 10px;
@@ -261,10 +261,88 @@ form input {
 	font-size: 1em;
 }
 
-form input[type="text"] {
+form#active-game-form input[type="text"] {
 	margin-bottom: 10px;
 }
 
-form input[type="button"] {
+#start-menu {
+	position: absolute;
+	width: 900px;
+	top: 50%;
+	left: 50%;
+	padding: 20px;
+	border: 1px solid rgb(152, 207, 113);
+	transform: translate(-50%, -50%);
 }
+
+#choose-parameters-wrap {
+	display: flex;
+	justify-content: space-between;
+	margin-bottom: 20px;
+}
+
+legend {
+	margin: 0 auto;
+	color: rgb(152, 207, 113);
+}
+
+#start-menu fieldset {
+	width: 25%;
+	border-color: rgb(152, 207, 113);
+}
+
+#start-menu h2 {
+	margin-bottom: 20px;
+	color: rgb(152, 207, 113);
+	text-align: center;
+}
+
+#start-menu label {
+	position: relative;
+	display: block;
+	width: 50%;
+	margin-bottom: 20px;
+	padding-left: 30px;
+	color: rgb(152, 207, 113);
+	line-height: 20px;
+	cursor: pointer;
+}
+
+#start-menu label:before {
+	content: '';
+	position: absolute;
+	left: 0;
+	top: 0;
+	width: 16px;
+	height: 16px;
+	border: 2px solid rgb(152, 207, 113);
+	border-radius: 50%;
+}
+
+#start-menu input[type="radio"] {
+	display: none;
+}
+
+#start-menu input[type="button"] {
+	box-sizing: border-box;
+	display: block;
+	margin: 0 auto;
+	width: 100px;
+	padding: 10px;
+	background-color: rgb(152, 207, 113);
+	border: 2px solid rgb(43, 91, 9);
+	border-radius: 3px;
+}
+
+#start-menu input:checked + label:after {
+	content: '';
+	position: absolute;
+	left: 6px;
+	top: 6px;
+	width: 8px;
+	height: 8px;
+	background: rgb(152, 207, 113);
+	border-radius: 50%;
+}
+
 

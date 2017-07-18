@@ -6,11 +6,67 @@
     <link rel="stylesheet" href="style.css">
   </head>
   <body>
-  <div id="menu" hidden></div>
-  <div id="board">
+  <div id="start-menu">
+    <h2>Выберите парамерты игры</h2>
+    <form action="" id="choose-parameters">
+      <div id="choose-parameters-wrap">
+        <fieldset>
+          <legend>Размер Поля:</legend>
+          <input id="size-4" type="radio" name="fieldSize" value="4">
+          <label for="size-4">4x4</label>
+          <input id="size-5" type="radio" name="fieldSize" value="5">
+          <label for="size-5">5x5</label>
+          <input id="size-6" type="radio" name="fieldSize" value="6">
+          <label for="size-6">6x6</label>
+          <input id="size-7" type="radio" name="fieldSize" value="7">
+          <label for="size-7">7x7</label>
+          <input id="size-8" type="radio" name="fieldSize" value="8">
+          <label for="size-8">8x8</label>
+          <input id="size-9" type="radio" name="fieldSize" value="9">
+          <label for="size-9">9x9</label>
+          <input id="size-10" type="radio" name="fieldSize" value="10">
+          <label for="size-10">10x10</label>
+        </fieldset>
+        <fieldset>
+          <legend>Длина корабля:</legend>
+          <input id="length-2" type="radio" name="shipLength" value="2">
+          <label for="length-2">2 клетки</label>
+          <input id="length-3" type="radio" name="shipLength" value="3">
+          <label for="length-3">3 клетки</label>
+          <input id="length-4" type="radio" name="shipLength" value="4">
+          <label for="length-4">4 клетки</label>
+        </fieldset>
+        <fieldset>
+          <legend>Количество кораблей:</legend>
+          <input id="num-1" type="radio" name="shipsNum" value="1">
+          <label for="num-1">1 корабль</label>
+          <input id="num-2" type="radio" name="shipsNum" value="2">
+          <label for="num-2">2 корабля</label>
+          <input id="num-3" type="radio" name="shipsNum" value="3">
+          <label for="num-3">3 корабля</label>
+          <input id="num-4" type="radio" name="shipsNum" value="4">
+          <label for="num-4">4 корабля</label>
+          <input id="num-5" type="radio" name="shipsNum" value="5">
+          <label for="num-5">5 кораблей</label>
+          <input id="num-6" type="radio" name="shipsNum" value="6">
+          <label for="num-6">6 кораблей</label>
+          <input id="num-7" type="radio" name="shipsNum" value="7">
+          <label for="num-7">7 кораблей</label>
+          <input id="num-8" type="radio" name="shipsNum" value="8">
+          <label for="num-8">8 кораблей</label>
+          <input id="num-9" type="radio" name="shipsNum" value="9">
+          <label for="num-9">9 кораблей</label>
+          <input id="num-10" type="radio" name="shipsNum" value="10">
+          <label for="num-10">10 кораблей</label>
+        </fieldset>
+      </div>
+      <input id="startGame" type="button" value="Start Game">
+    </form>
+  </div>
+  <div id="board" hidden>
     <div id="messageArea">Welcome!:)</div>
     <div id="timeCountArea">0:00:00</div>
-    <form>
+    <form id="active-game-form">
       <div class="wrap">
         <input type="text" id="guessInput" placeholder="A0">
         <input type="button" id="fireButton" value="Fire!">
