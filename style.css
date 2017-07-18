@@ -54,6 +54,24 @@ div#timeCountArea {
 	text-align: center;
 }
 
+input#startNewGame {
+	position: absolute;
+	box-sizing: border-box;
+	width: 100px;
+	padding: 10px;
+	bottom: -45px;
+	left: 50%;
+	transform: translateX(-50%);
+	background-color: rgb(152, 207, 113);
+	border: 2px solid rgb(43, 91, 9);
+	border-radius: 3px;
+	font-size: 1em;
+}
+
+input#startNewGame:focus {
+	outline: none;
+}
+
 .hit {
 	background: url("img/ship.png") no-repeat center center;
 	background-size: 90%;
@@ -79,11 +97,11 @@ td {
 	border: 3px solid rgb(152, 207, 113);
 }
 
-td:hover {
+td:not(.miss):not(.hit):hover {
 	cursor: pointer;
 }
 
-td:before {
+td:not(.miss):not(.hit):before {
 	content: '';
 	box-sizing: border-box;
 	position: absolute;
@@ -96,7 +114,7 @@ td:before {
 	opacity: 0;
 }
 
-td:after {
+td:not(.miss):not(.hit):after {
 	content: '';
 	box-sizing: border-box;
 	position: absolute;
@@ -119,43 +137,43 @@ td:hover:before {
 }
 
 
-td.miss:before,
-td.hit:before {
-	content: '';
-	position: absolute;
-	height: 4px;
-	width: 80%;
-	left: 10%;
-	top: calc(50% - 1px);
-	opacity: 0;
-	border: none;
-}
+/*td.miss:before,*/
+/*td.hit:before {*/
+	/*content: '';*/
+	/*position: absolute;*/
+	/*height: 4px;*/
+	/*width: 80%;*/
+	/*left: 10%;*/
+	/*top: calc(50% - 1px);*/
+	/*opacity: 0;*/
+	/*border: none;*/
+/*}*/
 
-td.miss:after,
-td.hit:after {
-	content: '';
-	position: absolute;
-	height: 80%;
-	width: 4px;
-	left: calc(50% - 1px);
-	top: 10%;
-	background: red;
-	opacity: 0;
-	border: none;
-}
+/*td.miss:after,*/
+/*td.hit:after {*/
+	/*content: '';*/
+	/*position: absolute;*/
+	/*height: 80%;*/
+	/*width: 4px;*/
+	/*left: calc(50% - 1px);*/
+	/*top: 10%;*/
+	/*background: red;*/
+	/*opacity: 0;*/
+	/*border: none;*/
+/*}*/
 
-td.miss:hover:before,
-td.miss:hover:after,
-td.hit:hover:after,
-td.hit:hover:before {
-	opacity: 1;
-	background: red;
-	-webkit-transition: all 1ms ease-out;
-	-moz-transition: all 1ms ease-out;
-	-o-transition: all 1ms ease-out;
-	transition: all 1ms ease-out;
-	transform: rotate(45deg);
-}
+/*td.miss:hover:before,*/
+/*td.miss:hover:after,*/
+/*td.hit:hover:after,*/
+/*td.hit:hover:before {*/
+	/*opacity: 1;*/
+	/*background: red;*/
+	/*-webkit-transition: all 1ms ease-out;*/
+	/*-moz-transition: all 1ms ease-out;*/
+	/*-o-transition: all 1ms ease-out;*/
+	/*transition: all 1ms ease-out;*/
+	/*transform: rotate(45deg);*/
+/*}*/
 
 
 form {
