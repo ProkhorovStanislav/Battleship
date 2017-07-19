@@ -12,7 +12,7 @@
       <div id="choose-parameters-wrap">
         <fieldset>
           <legend>Размер Поля:</legend>
-          <input id="size-4" type="radio" name="fieldSize" value="4">
+          <input id="size-4" type="radio" name="fieldSize" value="4" checked>
           <label for="size-4">4x4</label>
           <input id="size-5" type="radio" name="fieldSize" value="5">
           <label for="size-5">5x5</label>
@@ -29,7 +29,7 @@
         </fieldset>
         <fieldset>
           <legend>Длина корабля:</legend>
-          <input id="length-2" type="radio" name="shipLength" value="2">
+          <input id="length-2" type="radio" name="shipLength" value="2" checked>
           <label for="length-2">2 клетки</label>
           <input id="length-3" type="radio" name="shipLength" value="3">
           <label for="length-3">3 клетки</label>
@@ -38,7 +38,7 @@
         </fieldset>
         <fieldset>
           <legend>Количество кораблей:</legend>
-          <input id="num-1" type="radio" name="shipsNum" value="1">
+          <input id="num-1" type="radio" name="shipsNum" value="1" checked>
           <label for="num-1">1 корабль</label>
           <input id="num-2" type="radio" name="shipsNum" value="2">
           <label for="num-2">2 корабля</label>
@@ -63,6 +63,7 @@
       <input id="startGame" type="button" value="Start Game">
     </form>
   </div>
+
   <div id="board" hidden>
     <div id="messageArea">Welcome!:)</div>
     <div id="timeCountArea">0:00:00</div>
@@ -78,6 +79,12 @@
     </form>
     <div id="showShipsStatus"></div>
     <div id="tableBox"></div>
+  </div>
+
+  <div id="results" hidden>
+    Параметры игры:
+    - Поле 7х7;
+    - Длина корабля 7;
   </div>
 
   <script src="script.js"></script>

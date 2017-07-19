@@ -125,6 +125,17 @@ var model = {
       newShip.classList.add('ship');
       shipsPreviewField.appendChild(newShip);
     }
+  },
+
+  startGame: function () {
+    var fieldSize = document.querySelector('input[name=fieldSize]:checked').value;
+    var shipLength = document.querySelector('input[name=shipLength]:checked').value;
+    var shipsNum = document.querySelector('input[name=shipsNum]:checked').value;
+    this.boardSize =  +fieldSize;
+    this.numShips = +shipsNum;
+    this.shipLength = +shipLength;
+    view.hiddenGameMenu();
+    init();
   }
 
 };
@@ -155,8 +166,26 @@ var view = {
     var shipsPreviewField = document.getElementById('showShipsStatus');
     var previewShips = shipsPreviewField.querySelectorAll('.ship');
     previewShips[model.shipsSunk - 1].classList.add('sunk');
-  }
+  },
 
+  hiddenGameMenu: function () {
+    var startMenu = document.getElementById('start-menu');
+    startMenu.setAttribute('hidden', 'true');
+  },
+
+  displayGameField: function () {
+    var board = document.getElementById('board');
+    board.removeAttribute('hidden');
+  },
+
+  hiddenGameField: function () {
+    var board = document.getElementById('board');
+    board.setAttribute('hidden', 'true');
+  },
+  
+  showGameResult: function () {
+    
+  }
 };
 
 //Объект контроллер. Связывает все вместе, включая получение данных от пользователя и выполнение игровой логики.
@@ -251,6 +280,10 @@ function handlerNewGameButton() {
   window.location.reload();
 }
 
+function handlerStartGameButton() {
+  model.startGame();
+}
+
 //Проверка на число
 function isNumeric(n) {
   return !isNaN(parseFloat(n)) && isFinite(n);
@@ -278,7 +311,12 @@ function tick() {
   timer.innerHTML = m+":"+s+":"+ms;
 }
 
-window.onload = init;
+window.onload = preInit;
+
+function preInit() {
+  var startButton = document.getElementById('startGame');
+  startButton.onclick = handlerStartGameButton;
+}
 
 function init() {
   //Вызовется только после полной загрузки страницы
@@ -294,4 +332,5 @@ function init() {
   model.generateShipsPreview(model.numShips);
   tableBox.onclick = clickOnTheField;
   model.generateShipLocations();                                      //Размещение кораблей на доске. Данный метод вызывается из функции init, чтобы это происходило во время загрузки игры (до ее начала). При таком вызове позиции всех кораблей будут определены к моменту начала игры.
+  view.displayGameField();
 }
