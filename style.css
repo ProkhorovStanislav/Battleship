@@ -347,6 +347,15 @@ legend {
 
 .results {
 	position: absolute;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	background: rgba(0, 0, 0, .7);
+}
+
+.results-content {
+	position: absolute;
 	width: 460px;
 	min-height: 300px;
 	padding: 40px;
@@ -358,6 +367,10 @@ legend {
 	border-radius: 20px;
 }
 
+.results h2 {
+	text-align: center;
+}
+
 .results ul {
 	padding: 0;
 	margin: 0;
@@ -365,6 +378,33 @@ legend {
 
 .results li {
 	list-style: none;
+}
+
+.results .key {
+	display: inline-block;
+	width: 50%;
+}
+
+.best-results {
+	margin-bottom: 40px;
+}
+
+.results .buttons-wrapper {
+	text-align: center;
+}
+
+.results button {
+	display: inline-block;
+	box-sizing: border-box;
+	width: 150px;
+	padding: 10px;
+	background-color: rgb(152, 207, 113);
+	border: 2px solid rgb(43, 91, 9);
+	border-radius: 3px;
+}
+
+.results button + button {
+	margin-left: 20px;
 }
 
 

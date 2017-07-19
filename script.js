@@ -131,11 +131,22 @@ var model = {
     var fieldSize = document.querySelector('input[name=fieldSize]:checked').value;
     var shipLength = document.querySelector('input[name=shipLength]:checked').value;
     var shipsNum = document.querySelector('input[name=shipsNum]:checked').value;
-    this.boardSize =  +fieldSize;
+    this.boardSize = +fieldSize;
     this.numShips = +shipsNum;
     this.shipLength = +shipLength;
     view.hiddenGameMenu();
     init();
+  },
+
+  calculateResults: function () {
+    var battleTimeInString = document.querySelector('.js-time-count-area').textContent;
+    var battleTimeInSeconds = parseFloat(+battleTimeInString.split(':')[0] * 60 +
+      +battleTimeInString.split(':')[1] + '.' +
+      +battleTimeInString.split(':')[2]);
+    this.totalHits = model.shipLength * model.numShips;
+    this.accuracy = (model.shipLength * model.numShips / controller.guesses).toFixed(2);
+    this.guessesPerSec = (controller.guesses / battleTimeInSeconds).toFixed(2);
+    this.hitsPerSec = (this.totalHits / battleTimeInSeconds).toFixed(2);
   }
 
 };
@@ -182,11 +193,39 @@ var view = {
     var board = document.querySelector('.js-board');
     board.setAttribute('hidden', 'true');
   },
-  
+
   showGameResult: function () {
     var resultsBoard = document.querySelector('.js-results');
-    //this.hiddenGameField();
+    this.updateResults();
     resultsBoard.removeAttribute('hidden');
+  },
+
+  hiddenGameResult: function () {
+    var resultsBoard = document.querySelector('.js-results');
+    resultsBoard.setAttribute('hidden', 'true');
+  },
+
+  updateResults: function () {
+    var resultGameField = document.querySelector('.js-result-game-field');
+    var resultShipLength = document.querySelector('.js-result-ship-length');
+    var resultNumShips = document.querySelector('.js-result-num-ships');
+    var resultNumGuesses = document.querySelector('.js-result-num-guesses');
+    var resultNumHits = document.querySelector('.js-result-num-hits');
+    var resultAccuracy = document.querySelector('.js-result-accuracy');
+    var resultBattleTime = document.querySelector('.js-result-battle-time');
+    var resultGuessesPerSec = document.querySelector('.js-result-guesses-per-sec');
+    var resultHitsPerSec = document.querySelector('.js-result-hits-per-sec');
+
+    model.calculateResults();
+    resultGameField.textContent = model.boardSize + 'x' + model.boardSize;
+    resultShipLength.textContent = model.shipLength;
+    resultNumShips.textContent = model.numShips;
+    resultNumGuesses.textContent = controller.guesses;
+    resultNumHits.textContent = model.totalHits;
+    resultAccuracy.textContent = model.accuracy;
+    resultBattleTime.textContent = document.querySelector('.js-time-count-area').textContent;
+    resultGuessesPerSec.textContent = model.guessesPerSec;
+    resultHitsPerSec.textContent = model.hitsPerSec;
   }
 };
 
@@ -206,7 +245,7 @@ var controller = {
       if (this.guesses === 1) {
         this.timer = setInterval(tick, 10);
       }
-                                                                  //Затем комбинация строки и столбца передается методу fire. Напомним, что метод fire возвращает true при попадании в корабль.
+      //Затем комбинация строки и столбца передается методу fire. Напомним, что метод fire возвращает true при попадании в корабль.
       if (hit && model.shipsSunk === model.numShips) {           //Если выстрел попал в цель, а количество потопленных кораблей равно количеству кораблей в игре, выводится сообщение о том, что все корабли потоплены.
         model.gameIsFinished = true;
         clearInterval(this.timer);
@@ -269,14 +308,14 @@ function handleKeyPress(e) {                                          //Вызы
 }
 
 function clickOnTheField(event) {
-    var target = event.target;
-    while (target != this) {
-      if (target.tagName == 'TD' && !target.classList.contains('hit') && !target.classList.contains('miss')) {
-        controller.processGuess(target.id);
-        return;
-      }
-      target = target.parentNode;
+  var target = event.target;
+  while (target != this) {
+    if (target.tagName == 'TD' && !target.classList.contains('hit') && !target.classList.contains('miss')) {
+      controller.processGuess(target.id);
+      return;
     }
+    target = target.parentNode;
+  }
 }
 
 function handlerNewGameButton() {
@@ -285,6 +324,10 @@ function handlerNewGameButton() {
 
 function handlerStartGameButton() {
   model.startGame();
+}
+
+function handlerCloseResultsButton() {
+  view.hiddenGameResult();
 }
 
 //Проверка на число
@@ -298,20 +341,20 @@ function tick() {
   var arr = time.split(":");
   var m = arr[0];
   var s = arr[1];
-	var ms = arr[2];
+  var ms = arr[2];
 
   ms++;
   if (ms < 10) ms = "0" + ms;
-	if (ms == 100) {
-		ms = "00";
-		s++;
-		if (s < 10) s = "0" + s;
-	}
+  if (ms == 100) {
+    ms = "00";
+    s++;
+    if (s < 10) s = "0" + s;
+  }
   if (s == 60) {
     s = "00";
     m++;
   }
-  timer.innerHTML = m+":"+s+":"+ms;
+  timer.innerHTML = m + ":" + s + ":" + ms;
 }
 
 window.onload = preInit;
@@ -324,13 +367,17 @@ function preInit() {
 function init() {
   //Вызовется только после полной загрузки страницы
   var fireButton = document.getElementById("fireButton");             //Получаем ссылку на кнопку Fire! по идентификатору кнопки
-  var startNewGameBtn = document.querySelector(".js-start-new-game");
+  var startNewGameButtons = document.querySelectorAll(".js-start-new-game");
+  var closeResultsBtn = document.querySelector('.js-close-results');
   var guessInput = document.getElementById("guessInput");
   var tableBox = document.querySelector('.js-table-box');
 
-  startNewGameBtn.onclick = handlerNewGameButton;
+  for (var i = 0; i < startNewGameButtons.length; i++) {
+    startNewGameButtons[i].onclick = handlerNewGameButton;
+  }
   fireButton.onclick = handleFireButton;                              //Кнопке назначаем обработчик события нажатия(клика мышью) — функцию handleFireButton.
   guessInput.onkeypress = handleKeyPress;                             //Добавляем новый обработчик — для обработки событий нажатия клавиш(в частности Enter) в поле ввода HTML.
+  closeResultsBtn.onclick = handlerCloseResultsButton;
   model.createBoard(model.boardSize);
   model.generateShipsPreview(model.numShips);
   tableBox.onclick = clickOnTheField;

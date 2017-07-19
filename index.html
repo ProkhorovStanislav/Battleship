@@ -81,32 +81,65 @@
     <div class="table-box js-table-box"></div>
   </div>
 
-  <div class="modal">
-    <div class="results js-results" hidden>
-      <h3>Статистика сражения</h3>
+  <div class="results js-results" hidden>
+    <div class="results-content">
+      <h2>Вражеский флот разгромлен!</h2>
       <h4>Параметры игры:</h4>
-      <ul>
-        <li> - Поле: <span>9х9</span>;</li>
-        <li> - Длина корабля: <span>4</span>;</li>
-        <li> - Количество кораблей: <span>8</span>;</li>
+      <ul class="start-parameters">
+        <li>
+          <span class="key"> - Поле: </span><span class="value js-result-game-field">9х9</span>
+        </li>
+        <li>
+          <span class="key"> - Длина корабля: </span><span class="value js-result-ship-length">4</span>
+        </li>
+        <li>
+          <span class="key"> - Количество кораблей: </span><span class="js-result-num-ships">8</span>
+        </li>
       </ul>
       <h4>Результаты игры:</h4>
       <ul>
-        <li> - Количество выстрелов: <span>43</span>;</li>
-        <li> - Количество попаданий: <span>32</span>;</li>
-        <li> - Время боя: <span>45:45:45</span>;</li>
-        <li> - Выстрелов в секунду: <span>2.15</span>;</li>
-        <li> - Попаданий в секунду: <span>1.15</span>;</li>
+        <li>
+          <span class="key"> - Количество выстрелов: </span><span class="js-result-num-guesses">43</span>
+        </li>
+        <li>
+          <span class="key"> - Количество попаданий: </span><span class="js-result-num-hits">32</span>
+        </li>
+        <li>
+          <span class="key"> - Точность: </span><span class="js-result-accuracy">32</span>
+        </li>
+        <li>
+          <span class="key"> - Время боя: </span><span class="js-result-battle-time">45:45:45</span>
+        </li>
+        <li>
+          <span class="key"> - Выстрелов в секунду: </span><span class="js-result-guesses-per-sec">2.15</span>
+        </li>
+        <li>
+          <span class="key"> - Попаданий в секунду: </span><span class="js-result-hits-per-sec">1.15</span>
+        </li>
       </ul>
       <div class="best-results js-best-results">
         <h4>Лушчие результаты игры при выбранных настройках:</h4>
         <ul>
-          <li> - Количество выстрелов: <span>33</span>;</li>
-          <li> - Количество попаданий: <span>32</span>;</li>
-          <li> - Время боя: <span>1:45:45</span>;</li>
-          <li> - Выстрелов в секунду: <span>3.15</span>;</li>
-          <li> - Попаданий в секунду: <span>2.15</span>;</li>
+          <li>
+            <span class="key"> - Количество выстрелов: </span><span>33</span>
+          </li>
+          <li>
+            <span class="key"> - Количество попаданий: </span><span>32</span>
+          </li>
+          <li>
+            <span class="key"> - Время боя: </span><span>1:45:45</span>
+          </li>
+          <li>
+            <span class="key"> - Выстрелов в секунду: </span><span>3.15</span>
+          </li>
+          <li>
+            <span class="key"> - Попаданий в секунду: </span><span>2.15</span>
+          </li>
         </ul>
+      </div>
+      <div class="buttons-wrapper">
+        <button class="js-start-new-game">Новая игра</button>
+        <button class="js-close-results">Закрыть статистику</button>
       </div>
     </div>
   </div>
