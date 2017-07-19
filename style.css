@@ -6,7 +6,7 @@ body {
 	font-family: 'Colibri', sans-serif;
 }
 
-div#board {
+.board {
 	position: absolute;
 	width: calc(100vh - 250px);
 	height: calc(100vh - 250px);
@@ -15,7 +15,7 @@ div#board {
 	margin: auto;
 	transform: translate(-50%, -50%);
 }
-div#tableBox {
+.table-box {
 	position: absolute;
 	top: 0;
 	left: 0;
@@ -24,7 +24,7 @@ div#tableBox {
 }
 
 
-div#messageArea {
+.message-area {
 	position: absolute;
 	top: -70px;
 	left: 0;
@@ -32,7 +32,7 @@ div#messageArea {
 	color: rgb(83, 175, 19);
 }
 
-div#guessesArea {
+.guesses-area {
 	width: 96px;
 	margin: 0 auto;
 	line-height: 38px;
@@ -40,7 +40,7 @@ div#guessesArea {
 	border: 2px solid rgb(43, 91, 9);
 }
 
-div#timeCountArea {
+.time-count-area {
 	position: absolute;
 	top: -70px;
 	right: 0;
@@ -53,7 +53,7 @@ div#timeCountArea {
 	text-align: center;
 }
 
-input#startNewGame {
+.startNewGame {
 	box-sizing: border-box;
 	width: 100px;
 	padding: 10px;
@@ -62,11 +62,11 @@ input#startNewGame {
 	border-radius: 3px;
 }
 
-input#startNewGame:focus {
+.startNewGame:focus {
 	outline: none;
 }
 
-div#showShipsStatus {
+.show-ships-status {
 	position: absolute;
 	width: 50px;
 	min-height: 50px;
@@ -234,7 +234,7 @@ tr:first-child td:nth-child(10):before {
 	content: '10';
 }
 
-form#active-game-form {
+.active-game-form {
 	display: flex;
 	width: 240px;
 	position: absolute;
@@ -251,7 +251,7 @@ form#active-game-form {
 	width: 50%;
 }
 
-form#active-game-form input {
+.active-game-form input {
 	box-sizing: border-box;
 	width: 100px;
 	padding: 10px;
@@ -261,11 +261,11 @@ form#active-game-form input {
 	font-size: 1em;
 }
 
-form#active-game-form input[type="text"] {
+.active-game-form input[type="text"] {
 	margin-bottom: 10px;
 }
 
-#start-menu {
+.start-menu {
 	position: absolute;
 	width: 900px;
 	top: 50%;
@@ -275,7 +275,7 @@ form#active-game-form input[type="text"] {
 	transform: translate(-50%, -50%);
 }
 
-#choose-parameters-wrap {
+.choose-parameters-wrap {
 	display: flex;
 	justify-content: space-between;
 	margin-bottom: 20px;
@@ -286,18 +286,18 @@ legend {
 	color: rgb(152, 207, 113);
 }
 
-#start-menu fieldset {
+.start-menu fieldset {
 	width: 25%;
 	border-color: rgb(152, 207, 113);
 }
 
-#start-menu h2 {
+.start-menu h2 {
 	margin-bottom: 20px;
 	color: rgb(152, 207, 113);
 	text-align: center;
 }
 
-#start-menu label {
+.start-menu label {
 	position: relative;
 	display: block;
 	width: 50%;
@@ -308,7 +308,7 @@ legend {
 	cursor: pointer;
 }
 
-#start-menu label:before {
+.start-menu label:before {
 	content: '';
 	position: absolute;
 	left: 0;
@@ -319,11 +319,11 @@ legend {
 	border-radius: 50%;
 }
 
-#start-menu input[type="radio"] {
+.start-menu input[type="radio"] {
 	display: none;
 }
 
-#start-menu input[type="button"] {
+.start-menu input[type="button"] {
 	box-sizing: border-box;
 	display: block;
 	margin: 0 auto;
@@ -334,7 +334,7 @@ legend {
 	border-radius: 3px;
 }
 
-#start-menu input:checked + label:after {
+.start-menu input:checked + label:after {
 	content: '';
 	position: absolute;
 	left: 6px;
@@ -343,6 +343,28 @@ legend {
 	height: 8px;
 	background: rgb(152, 207, 113);
 	border-radius: 50%;
+}
+
+.results {
+	position: absolute;
+	width: 460px;
+	min-height: 300px;
+	padding: 40px;
+	left: 50%;
+	top: 50%;
+	transform: translate(-50%, -50%);
+	background: rgb(152, 207, 113);
+	border: 2px solid rgb(43, 91, 9);
+	border-radius: 20px;
+}
+
+.results ul {
+	padding: 0;
+	margin: 0;
+}
+
+.results li {
+	list-style: none;
 }
 
 

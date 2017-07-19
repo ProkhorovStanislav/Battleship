@@ -6,10 +6,10 @@
     <link rel="stylesheet" href="style.css">
   </head>
   <body>
-  <div id="start-menu">
+  <div class="start-menu js-start-menu">
     <h2>Выберите парамерты игры</h2>
-    <form action="" id="choose-parameters">
-      <div id="choose-parameters-wrap">
+    <form action="" class="choose-parameters">
+      <div class="choose-parameters-wrap">
         <fieldset>
           <legend>Размер Поля:</legend>
           <input id="size-4" type="radio" name="fieldSize" value="4" checked>
@@ -60,31 +60,55 @@
           <label for="num-10">10 кораблей</label>
         </fieldset>
       </div>
-      <input id="startGame" type="button" value="Start Game">
+      <input class="js-start-game" type="button" value="Start Game">
     </form>
   </div>
 
-  <div id="board" hidden>
-    <div id="messageArea">Welcome!:)</div>
-    <div id="timeCountArea">0:00:00</div>
-    <form id="active-game-form">
+  <div class="board js-board" hidden>
+    <div class="message-area js-message-area">Welcome!:)</div>
+    <div class="time-count-area js-time-count-area">0:00:00</div>
+    <form class="active-game-form">
       <div class="wrap">
         <input type="text" id="guessInput" placeholder="A0">
         <input type="button" id="fireButton" value="Fire!">
       </div>
       <div class="wrap">
-        <div id="guessesArea">Guesses: <span id="guessesCount">0</span></div>
-        <input type="button" id="startNewGame" value="New game">
+        <div class="guesses-area">Guesses: <span id="guessesCount">0</span></div>
+        <input type="button" class="start-new-game js-start-new-game" value="New game">
       </div>
     </form>
-    <div id="showShipsStatus"></div>
-    <div id="tableBox"></div>
+    <div class="show-ships-status js-show-ships-status"></div>
+    <div class="table-box js-table-box"></div>
   </div>
 
-  <div id="results" hidden>
-    Параметры игры:
-    - Поле 7х7;
-    - Длина корабля 7;
+  <div class="modal">
+    <div class="results js-results" hidden>
+      <h3>Статистика сражения</h3>
+      <h4>Параметры игры:</h4>
+      <ul>
+        <li> - Поле: <span>9х9</span>;</li>
+        <li> - Длина корабля: <span>4</span>;</li>
+        <li> - Количество кораблей: <span>8</span>;</li>
+      </ul>
+      <h4>Результаты игры:</h4>
+      <ul>
+        <li> - Количество выстрелов: <span>43</span>;</li>
+        <li> - Количество попаданий: <span>32</span>;</li>
+        <li> - Время боя: <span>45:45:45</span>;</li>
+        <li> - Выстрелов в секунду: <span>2.15</span>;</li>
+        <li> - Попаданий в секунду: <span>1.15</span>;</li>
+      </ul>
+      <div class="best-results js-best-results">
+        <h4>Лушчие результаты игры при выбранных настройках:</h4>
+        <ul>
+          <li> - Количество выстрелов: <span>33</span>;</li>
+          <li> - Количество попаданий: <span>32</span>;</li>
+          <li> - Время боя: <span>1:45:45</span>;</li>
+          <li> - Выстрелов в секунду: <span>3.15</span>;</li>
+          <li> - Попаданий в секунду: <span>2.15</span>;</li>
+        </ul>
+      </div>
+    </div>
   </div>
 
   <script src="script.js"></script>

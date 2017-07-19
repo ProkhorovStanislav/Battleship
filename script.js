@@ -44,7 +44,7 @@ var model = {
   },
 
   createBoard: function (boardSize) {
-    var tableBox = document.getElementById('tableBox');
+    var tableBox = document.querySelector('.js-table-box');
     var table = document.createElement('table');
     var row;
     var cell;
@@ -119,7 +119,7 @@ var model = {
   },
 
   generateShipsPreview: function (numShips) {
-    var shipsPreviewField = document.getElementById('showShipsStatus');
+    var shipsPreviewField = document.querySelector('.js-show-ships-status');
     for (var i = 0; i < numShips; i++) {
       var newShip = document.createElement('div');
       newShip.classList.add('ship');
@@ -143,7 +143,7 @@ var model = {
 //Объект представления. Здесь обновляются изображения маркеров попаданий и промахов, а также отображаются сообщения для пользователя.
 var view = {
   displayMessage: function (msg) {                                //Метод displayMessage получает один аргумент — текст сообщения.
-    var messageArea = document.getElementById("messageArea");    //Мы получаем элемент messageArea из страницы...
+    var messageArea = document.querySelector(".js-message-area");    //Мы получаем элемент messageArea из страницы...
     messageArea.innerHTML = msg;                                 //..и обновляем текст элемента messageArea, задавая его свойству innerHTML содержимое msg.
   },
 
@@ -163,28 +163,30 @@ var view = {
   },
 
   displaySunk: function () {
-    var shipsPreviewField = document.getElementById('showShipsStatus');
+    var shipsPreviewField = document.querySelector('.js-show-ships-status');
     var previewShips = shipsPreviewField.querySelectorAll('.ship');
     previewShips[model.shipsSunk - 1].classList.add('sunk');
   },
 
   hiddenGameMenu: function () {
-    var startMenu = document.getElementById('start-menu');
+    var startMenu = document.querySelector('.js-start-menu');
     startMenu.setAttribute('hidden', 'true');
   },
 
   displayGameField: function () {
-    var board = document.getElementById('board');
+    var board = document.querySelector('.js-board');
     board.removeAttribute('hidden');
   },
 
   hiddenGameField: function () {
-    var board = document.getElementById('board');
+    var board = document.querySelector('.js-board');
     board.setAttribute('hidden', 'true');
   },
   
   showGameResult: function () {
-    
+    var resultsBoard = document.querySelector('.js-results');
+    //this.hiddenGameField();
+    resultsBoard.removeAttribute('hidden');
   }
 };
 
@@ -209,6 +211,7 @@ var controller = {
         model.gameIsFinished = true;
         clearInterval(this.timer);
         view.displayMessage("You sank all my battleships, in " + this.guesses + " guesses");    //Выводим общее количество выстрелов, которое потребовалось игроку для того, чтобы потопить корабли. Свойство guesses является свойством объекта this, то есть контроллера.
+        view.showGameResult();
       }
     }
   }
@@ -290,7 +293,7 @@ function isNumeric(n) {
 }
 
 function tick() {
-  var timer = document.getElementById("timeCountArea");
+  var timer = document.querySelector(".js-time-count-area");
   var time = timer.innerHTML;
   var arr = time.split(":");
   var m = arr[0];
@@ -314,16 +317,16 @@ function tick() {
 window.onload = preInit;
 
 function preInit() {
-  var startButton = document.getElementById('startGame');
+  var startButton = document.querySelector('.js-start-game');
   startButton.onclick = handlerStartGameButton;
 }
 
 function init() {
   //Вызовется только после полной загрузки страницы
   var fireButton = document.getElementById("fireButton");             //Получаем ссылку на кнопку Fire! по идентификатору кнопки
-  var startNewGameBtn = document.getElementById("startNewGame");
+  var startNewGameBtn = document.querySelector(".js-start-new-game");
   var guessInput = document.getElementById("guessInput");
-  var tableBox = document.getElementById('tableBox');
+  var tableBox = document.querySelector('.js-table-box');
 
   startNewGameBtn.onclick = handlerNewGameButton;
   fireButton.onclick = handleFireButton;                              //Кнопке назначаем обработчик события нажатия(клика мышью) — функцию handleFireButton.
