@@ -1,36 +1,34 @@
 //Объект модели. Следит за кораблями: где они находятся, попали ли в них и не утонули ли подстреленные корабли.
 var model = {
   boardSize: 5,                                         //Эти три свойства помогают обойтись без жестко фиксированных значений: boardSize (размер игрового поля), numShips (количество кораблей в игре) и shipLength (длина корабля в клетках, 3).
-  numShips: 2,
   shipLength: 3,
+  numShips: 2,
   shipsSunk: 0,                                         //Свойство shipsSunk (инициализируется значением 0 в начале игры) содержит текущее количество кораблей, потопленных игроком.
   ships: [],                                            //Свойство ships содержит массив объектов ship, содержащих массивы locations и hits для каждого из кораблей.
-  gameIsStarted: false,
-  gameIsFinished: false,
 
-  fire: function (guess) {                               //Метод получает аргумент с координатами выстрела, перебирает все корабли и проверяет, пришлось ли попадание в очередной корабль.
+  fire: function (guess) {                              //Метод получает аргумент с координатами выстрела, перебирает все корабли и проверяет, пришлось ли попадание в очередной корабль.
     for (var i = 0; i < this.numShips; i++) {           //Перебираем массив ships, последовательно проверяя каждый корабль.
       var ship = this.ships[i];                         //Здесь мы получаем объект корабля. Необходимо проверить, совпадают ли координаты выстрела с координатами одной из занимаемых им клеток.
       var index = ship.locations.indexOf(guess);        //Получаем массив клеток, занимаемых кораблем. Это свойство корабля, в котором хранится массив. Если координаты клетки присутствуют в массиве locations, значит, выстрел попал в цель. Метод indexOf ищет в массиве указанное значение и возвращает его индекс (или -1, если значение отсутствует в массиве).
 
       if (ship.hits[index] === "hit") {                 // Улучшение. Проверяем, если судно уже поражено в данной клетке, сообщаем об этом пользователю пользователю, и возвращаем истину.
-        view.displayMessage("Oops, you already hit that location!");
+        view.displayMessage("Вы уже стреляли сюда.");
         return true;
       } else if (index >= 0) {                          //Если полученный индекс больше либо равен нулю, значит, указанная клетка присутствует в массиве location и выстрел попал в цель.
         ship.hits[index] = "hit";                       //Ставим отметку в массиве hits по тому же индексу.
         view.displayHit(guess);                         //Оповещаем представление о том, что в клетке guess следует вывести маркер попадания.
-        view.displayMessage("HIT!");                    //И говорим представлению вывести сообщение “HIT!”.
+        view.displayMessage("Попадание!");                    //И говорим представлению вывести сообщение “HIT!”.
 
         if (this.isSunk(ship)) {                        //Добавляем проверку здесь, после того как будем точно знать, что выстрел попал в корабль. Если корабль потоплен, то мы увеличиваем счетчик потопленных кораблей в свойстве shipsSunk модели.
-          view.displayMessage("You sank my battleship!");   //Сообщаем игроку, что он потопил корабль!
+          view.displayMessage("Вы потопили мой корабль!");   //Сообщаем игроку, что он потопил корабль!
           this.shipsSunk++;
-          view.displaySunk();
+          view.displaySunk(ship);
         }
         return true;                                    //Возвращаем true, потому что выстрел оказался удачным.
       }
     }
     view.displayMiss(guess);                           //Сообщаем представлению, что в клетке guess следует вывести маркер промаха.
-    view.displayMessage("You missed.");                //И приказываем представлению вывести сообщение о промахе.
+    view.displayMessage("Вы промахнулись.");                //И приказываем представлению вывести сообщение о промахе.
     return false;                                      //Если же после перебора всех кораблей попадание так и не обнаружено, игрок промахнулся, а метод возвращает false
   },
 
@@ -72,13 +70,23 @@ var model = {
 
   generateShipLocations: function () {                  //Этот метод в цикле создает корабли, пока массив ships модели не будет заполнен достаточным количеством кораблей.
     var locations;
+    var count;
     this.generateShipFrames();
+    outer:
     for (var i = 0; i < this.numShips; i++) {          //Для каждого корабля генерируется набор позиций, то есть занимаемых клеток.
+      count = 0;
       do {                                             //Цикл do while работает почти так же, как while, за одним исключением: он сначала выполняет команды в теле цикла, а потом проверяет условие.
         locations = this.generateShip();               //Генерируем новый набор позиций...
+        count++;
+        if (count == 1000) {
+          alert('При выбранных параметрах невозможно начать игру, попробуйте выбрать другие');
+          window.location.reload(true);
+          break outer;
+        }
       } while (this.collision(locations));             //...и проверяем, перекрываются ли эти позиции с существующими кораблями на доске. Если есть перекрытия, нужна еще одна попытка. Новые позиции генерируются, пока не будут найдены варианты без перекрытий.
       this.ships[i].locations = locations;             //Полученные позиции без перекрытий сохраняются в свойстве locations объекта корабля в массиве model.ships.
     }
+
     console.log("Ships array: ");
     console.log(this.ships);
   },
@@ -138,17 +146,47 @@ var model = {
     init();
   },
 
-  calculateResults: function () {
+  calculateCurrentResults: function () {
     var battleTimeInString = document.querySelector('.js-time-count-area').textContent;
-    var battleTimeInSeconds = parseFloat(+battleTimeInString.split(':')[0] * 60 +
-      +battleTimeInString.split(':')[1] + '.' +
-      +battleTimeInString.split(':')[2]);
+    var battleTimeInSeconds = timeStringToSeconds(battleTimeInString);
     this.totalHits = model.shipLength * model.numShips;
     this.accuracy = (model.shipLength * model.numShips / controller.guesses).toFixed(2);
     this.guessesPerSec = (controller.guesses / battleTimeInSeconds).toFixed(2);
     this.hitsPerSec = (this.totalHits / battleTimeInSeconds).toFixed(2);
-  }
+  },
 
+  calculateBestResults: function () {
+    var bestResults;
+    var battleTime = document.querySelector('.js-time-count-area').textContent;
+    var battleTimeInSeconds = timeStringToSeconds(battleTime);
+    if(!this.isGameTypeCodeInStorage()) {
+      bestResults = {};
+      bestResults.numGuesses = controller.guesses;
+      bestResults.numHits = this.totalHits;
+      bestResults.accuracy = this.accuracy;
+      bestResults.battleTime = battleTime;
+      bestResults.guessesPerSec = model.guessesPerSec;
+      bestResults.hitsPerSec = model.hitsPerSec;
+      var serialObj = JSON.stringify(bestResults);
+      localStorage.setItem(this.gameTypeCode, serialObj);
+    } else {
+      bestResults = JSON.parse(localStorage.getItem(this.gameTypeCode));
+
+      bestResults.numGuesses = bestResults.numGuesses > controller.guesses ? controller.guesses : bestResults.numGuesses;
+      bestResults.accuracy = this.accuracy > bestResults.accuracy ? this.accuracy : bestResults.accuracy;
+      bestResults.battleTime = timeStringToSeconds(bestResults.battleTime) > battleTimeInSeconds ? battleTime : bestResults.battleTime;
+      bestResults.guessesPerSec = model.guessesPerSec > bestResults.guessesPerSec ? model.guessesPerSec : bestResults.guessesPerSec;
+      bestResults.hitsPerSec = model.hitsPerSec > bestResults.hitsPerSec ? model.hitsPerSec : bestResults.hitsPerSec;
+      serialObj = JSON.stringify(bestResults);
+      localStorage.setItem(this.gameTypeCode, serialObj);
+    }
+    return bestResults;
+  },
+
+  isGameTypeCodeInStorage: function () {
+    this.gameTypeCode = '' + this.boardSize + this.shipLength + this.numShips;
+    return localStorage.getItem(this.gameTypeCode);
+  }
 };
 
 //Объект представления. Здесь обновляются изображения маркеров попаданий и промахов, а также отображаются сообщения для пользователя.
@@ -173,10 +211,18 @@ var view = {
     guessesArea.textContent = guesses;
   },
 
-  displaySunk: function () {
+  displaySunk: function (ship) {
+    var fields = document.querySelectorAll('td');
     var shipsPreviewField = document.querySelector('.js-show-ships-status');
     var previewShips = shipsPreviewField.querySelectorAll('.ship');
     previewShips[model.shipsSunk - 1].classList.add('sunk');
+    for (var i = 0; i < fields.length; i++) {
+      for (var j = 0; j < ship.locations.length; j++) {
+        if(fields[i].id == ship.locations[j]) {
+          fields[i].classList.add('sunk');
+        }
+      }
+    }
   },
 
   hiddenGameMenu: function () {
@@ -189,14 +235,10 @@ var view = {
     board.removeAttribute('hidden');
   },
 
-  hiddenGameField: function () {
-    var board = document.querySelector('.js-board');
-    board.setAttribute('hidden', 'true');
-  },
-
   showGameResult: function () {
     var resultsBoard = document.querySelector('.js-results');
-    this.updateResults();
+    this.updateCurrentResults();
+    this.updateBestResults();
     resultsBoard.removeAttribute('hidden');
   },
 
@@ -205,7 +247,7 @@ var view = {
     resultsBoard.setAttribute('hidden', 'true');
   },
 
-  updateResults: function () {
+  updateCurrentResults: function () {
     var resultGameField = document.querySelector('.js-result-game-field');
     var resultShipLength = document.querySelector('.js-result-ship-length');
     var resultNumShips = document.querySelector('.js-result-num-ships');
@@ -216,7 +258,7 @@ var view = {
     var resultGuessesPerSec = document.querySelector('.js-result-guesses-per-sec');
     var resultHitsPerSec = document.querySelector('.js-result-hits-per-sec');
 
-    model.calculateResults();
+    model.calculateCurrentResults();
     resultGameField.textContent = model.boardSize + 'x' + model.boardSize;
     resultShipLength.textContent = model.shipLength;
     resultNumShips.textContent = model.numShips;
@@ -226,6 +268,23 @@ var view = {
     resultBattleTime.textContent = document.querySelector('.js-time-count-area').textContent;
     resultGuessesPerSec.textContent = model.guessesPerSec;
     resultHitsPerSec.textContent = model.hitsPerSec;
+  },
+
+  updateBestResults: function () {
+    var bestNumGuesses = document.querySelector('.js-best-num-guesses');
+    var bestNumHits = document.querySelector('.js-best-num-hits');
+    var bestAccuracy = document.querySelector('.js-best-accuracy');
+    var bestBattleTime = document.querySelector('.js-best-battle-time');
+    var bestGuessesPerSec = document.querySelector('.js-best-guesses-per-sec');
+    var bestHitsPerSec = document.querySelector('.js-best-hits-per-sec');
+    var bestResults = model.calculateBestResults();
+
+    bestNumGuesses.textContent = bestResults.numGuesses;
+    bestNumHits.textContent = model.totalHits;
+    bestAccuracy.textContent = bestResults.accuracy;
+    bestBattleTime.textContent = bestResults.battleTime;
+    bestGuessesPerSec.textContent = bestResults.guessesPerSec;
+    bestHitsPerSec.textContent = bestResults.hitsPerSec;
   }
 };
 
@@ -247,14 +306,13 @@ var controller = {
       }
       //Затем комбинация строки и столбца передается методу fire. Напомним, что метод fire возвращает true при попадании в корабль.
       if (hit && model.shipsSunk === model.numShips) {           //Если выстрел попал в цель, а количество потопленных кораблей равно количеству кораблей в игре, выводится сообщение о том, что все корабли потоплены.
-        model.gameIsFinished = true;
         clearInterval(this.timer);
-        view.displayMessage("You sank all my battleships, in " + this.guesses + " guesses");    //Выводим общее количество выстрелов, которое потребовалось игроку для того, чтобы потопить корабли. Свойство guesses является свойством объекта this, то есть контроллера.
+        view.displayMessage("Вы потопили все мои корабли. Выстрелов: " + this.guesses);    //Выводим общее количество выстрелов, которое потребовалось игроку для того, чтобы потопить корабли. Свойство guesses является свойством объекта this, то есть контроллера.
         view.showGameResult();
       }
     }
   }
-}
+};
 
 
 // helper function to parse a guess from the user
@@ -262,7 +320,7 @@ function parseGuess(guess) {                                          //Здес
   var alphabet = ["A", "B", "C", "D", "E", "F", "G"];                 //Массив заполняется всеми буквами, которые могут присутствовать в действительных координатах.
 
   if (guess === null || guess.length !== 2) {                         //Проверяем данные на null и убеждаемся, что в строке два символа.
-    alert("Oops, please enter a letter and a number on the board.");
+    alert("Введите букву и цифру координат.");
   } else {
     var firstChar = guess.charAt(0);                                  //Извлекаем первый символ строки.
     var row;
@@ -275,10 +333,10 @@ function parseGuess(guess) {                                          //Здес
     var column = guess.charAt(1);                                     //Здесь добавляется код для получения второго символа, представляющего столбец игрового поля.
 
     if (isNaN(row) || isNaN(column)) {                                //А здесь функция isNaN выявляет строки и столбцы, которыене являются цифрами.
-      alert("Oops, that isn't on the board.");
+      alert("Проверьте введеные координаты.");
     } else if (row < 0 || row >= model.boardSize ||
       column < 0 || column >= model.boardSize) {             //Здесь применяются преобразования типов. Переменная column содержит строковое значение, и проверяя, что значение находится в диапазоне от 0 до 6, мы полагаемся на преобразование строки в число для выполнения сравнения.
-      alert("Oops, that's off the board!");
+      alert("Проверьте введеные координаты.");
     } else {
       return row + column;                                            //Строка и столбец объединяются, а результат возвращается методом. Здесь снова задействовано преобразование типа: row — число, а column — строка, поэтому результатом также является строка. В этой точке все проверки пройдены, поэтому метод может вернуть результат.
     }
@@ -355,6 +413,13 @@ function tick() {
     m++;
   }
   timer.innerHTML = m + ":" + s + ":" + ms;
+}
+
+// Перевод времени из строки в число
+function timeStringToSeconds(String) {
+  return parseFloat(+String.split(':')[0] * 60 +
+    +String.split(':')[1] + '.' +
+    +String.split(':')[2]);
 }
 
 window.onload = preInit;

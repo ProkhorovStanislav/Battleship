@@ -33,7 +33,7 @@ body {
 }
 
 .guesses-area {
-	width: 96px;
+	width: 116px;
 	margin: 0 auto;
 	line-height: 38px;
 	margin-bottom: 10px;
@@ -84,7 +84,7 @@ body {
 	overflow: hidden;
 }
 
-.sunk:before {
+.ship.sunk:before {
 	content: '';
 	position: absolute;
 	left: 0;
@@ -95,7 +95,7 @@ body {
 	transform: rotate(-15deg);
 }
 
-.sunk:after {
+.ship.sunk:after {
 	content: '';
 	position: absolute;
 	left: 0;
@@ -111,6 +111,11 @@ body {
 .hit {
 	background: url("img/ship.png") no-repeat center center;
 	background-size: 90%;
+}
+
+.hit.sunk {
+	background: url("img/sunk.png") no-repeat center center, url("img/ship.png") no-repeat center center;
+	background-size: 60%;
 }
 
 .miss {
@@ -236,7 +241,7 @@ tr:first-child td:nth-child(10):before {
 
 .active-game-form {
 	display: flex;
-	width: 240px;
+	width: 300px;
 	position: absolute;
 	bottom: -140px;
 	left: 50%;
@@ -253,7 +258,7 @@ tr:first-child td:nth-child(10):before {
 
 .active-game-form input {
 	box-sizing: border-box;
-	width: 100px;
+	width: 120px;
 	padding: 10px;
 	background-color: rgb(152, 207, 113);
 	border: 2px solid rgb(43, 91, 9);
